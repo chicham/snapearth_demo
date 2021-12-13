@@ -1,6 +1,10 @@
 {
   "VoilaConfiguration": {
+    "enable_nbextensions": true,
     "theme": "dark",
-    "template": "gridstack"
+    "template": "gridstack",
+    "language_kernel_mapping": {
+      "python": "python3"
+    }
   }
 }
