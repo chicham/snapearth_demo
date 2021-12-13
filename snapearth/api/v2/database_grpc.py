@@ -10,12 +10,12 @@ import grpclib.const
 if typing.TYPE_CHECKING:
     import grpclib.server
 
-import google.api.annotations_pb2
 import google.protobuf.descriptor_pb2
 import google.protobuf.empty_pb2
 import google.protobuf.timestamp_pb2
 
 import geobufproto.geobuf_pb2
+import google.api.annotations_pb2
 import snapearth.api.v2.database_pb2
 
 
