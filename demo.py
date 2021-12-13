@@ -20,7 +20,7 @@ from utils import EUROPE_COORDINATES, DemoConfig, plot_responses
 
 nest_asyncio.apply()
 
-cfg = DemoConfig.from_environ(
+cfg: DemoConfig = DemoConfig.from_environ(
     {
         "SNAPEARTH_GRPC_HOST": "earthsignature.snapearth.eu",
         "SNAPEARTH_GRPC_PORT": 443,
@@ -75,5 +75,15 @@ n_results = widgets.IntSlider(
 # %%
 widgets.VBox([geom, start_date, end_date, product_ids, categories, n_results])
 # %%
-df, map_ = plot_responses(geom, start_date, end_date, product_ids, categories, n_results)
+df, map_ = plot_responses(
+    cfg.grpc.host,
+    cfg.grpc.port,
+    cfg.grpc.use_ssl,
+    geom,
+    start_date,
+    end_date,
+    product_ids,
+    categories,
+    n_results,
+)
 map_
