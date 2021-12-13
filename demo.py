@@ -16,7 +16,8 @@ from datetime import datetime, timedelta
 import ipywidgets as widgets
 import nest_asyncio
 from IPython.display import clear_output, display
-from ipywidgets.widgets.widget_box import HBox
+from ipywidgets.widgets.widget_box import GridBox, HBox
+from ipywidgets.widgets.widget_layout import Layout
 
 from utils import EUROPE_COORDINATES, DemoConfig, plot_responses
 
@@ -33,6 +34,7 @@ cfg: DemoConfig = DemoConfig.from_environ(
     },
 )
 
+style = {"description_width": "initial"}
 geom = widgets.Text(
     value=str(EUROPE_COORDINATES),
     placeholder="",
@@ -57,12 +59,14 @@ product_ids = widgets.Text(
     placeholder="",
     description="Product IDs (comma separated)",
     disabled=False,
+    style=style,
 )
 
 categories = widgets.Text(
     value="",
     description="Categories (comma separated)",
     disabled=False,
+    style=style,
 )
 
 n_results = widgets.IntSlider(
@@ -98,5 +102,16 @@ def on_click(_):
 submit.on_click(on_click)
 
 # %%
-form = widgets.VBox([geom, start_date, end_date, product_ids, categories, n_results, submit])
-display(HBox([form, output]))
+form = widgets.VBox(
+    children=[geom, start_date, end_date, product_ids, categories, n_results, submit],
+)
+display(
+    GridBox(
+        children=[form, output],
+        layout=Layout(
+            grid_template_rows="auto",
+            grid_template_columns="30% auto",
+            grid_gap="5px 10px",
+        ),
+    ),
+)

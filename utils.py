@@ -206,10 +206,6 @@ def plot_responses(
         geom = wkt.loads(response.wkt)
         folium.GeoJson(geom).add_to(map_)
         centroid = mapping(geom.centroid)
-        folium.Marker(
-            location=centroid["coordinates"][::-1],
-            tooltip=f"{response.product_id}",
-        ).add_to(map_)
         bounds = geom.bounds
         bounds = (
             (bounds[1], bounds[0]),
@@ -224,22 +220,32 @@ def plot_responses(
             control=False,
             opacity=0.8,
         ).add_to(map_)
-        data.append(
-            {
-                # "geometry": geom,
-                "creation_date": datetime.fromtimestamp(
-                    response.creation_date.seconds,
-                ),
-                "publication_date": datetime.fromtimestamp(
-                    response.creation_date.seconds,
-                ),
-                "product_id": response.product_id,
-                "quicklook_url": response.quicklook,
-                "cloud_cover": response.cloud_cover,
-                "browse_url": response.browse_url,
-                "download_url": response.download_url,
-            },
+        names = [
+            "creation_date",
+            "publication_date",
+            "product_id",
+            "quicklook_url",
+            "cloud_cover",
+            "browse_url",
+            "download_url",
+        ]
+        responses = [
+            response.creation_date.ToDatetime(),
+            response.publication_date.ToDatetime(),
+            response.product_id,
+            response.quicklook,
+            response.cloud_cover,
+            response.browse_url,
+            response.download_url,
+        ]
+        df = pd.DataFrame({"names": names, "values": responses})
+        html = df.to_html(
+            classes="table table-striped table-hover table-condensed table-responsive",
         )
+        folium.Marker(
+            location=centroid["coordinates"][::-1],
+            tooltip=f"{response.product_id}",
+            popup=folium.Popup(html),
+        ).add_to(map_)
 
-    # TODO display information on the map
     return map_
