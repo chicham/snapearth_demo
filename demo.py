@@ -15,6 +15,8 @@ from datetime import datetime, timedelta
 
 import ipywidgets as widgets
 import nest_asyncio
+from IPython.display import clear_output, display
+from ipywidgets.widgets.widget_box import HBox
 
 from utils import EUROPE_COORDINATES, DemoConfig, plot_responses
 
@@ -72,18 +74,29 @@ n_results = widgets.IntSlider(
     disabled=False,
 )
 
+submit = widgets.Button(description="Submit")
+output = widgets.Output()
+
+
+def on_click(_):
+    output.clear_output()
+    with output:
+        map_ = plot_responses(
+            cfg.grpc.host,
+            cfg.grpc.port,
+            cfg.grpc.use_ssl,
+            geom,
+            start_date,
+            end_date,
+            product_ids,
+            categories,
+            n_results,
+        )
+        display(map_)
+
+
+submit.on_click(on_click)
+
 # %%
-widgets.VBox([geom, start_date, end_date, product_ids, categories, n_results])
-# %%
-df, map_ = plot_responses(
-    cfg.grpc.host,
-    cfg.grpc.port,
-    cfg.grpc.use_ssl,
-    geom,
-    start_date,
-    end_date,
-    product_ids,
-    categories,
-    n_results,
-)
-map_
+form = widgets.VBox([geom, start_date, end_date, product_ids, categories, n_results, submit])
+display(HBox([form, output]))

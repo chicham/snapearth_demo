@@ -16,6 +16,7 @@ from rasterio.enums import Resampling
 from rasterio.io import MemoryFile
 from shapely import wkt
 from shapely.geometry import mapping
+from tqdm import tqdm
 
 from snapearth.api.v1.database_grpc import DatabaseProductServiceStub
 from snapearth.api.v1.database_pb2 import ListSegmentationRequest, SegmentationResponse
@@ -201,7 +202,7 @@ def plot_responses(
         crs="EPSG3857",
     )
     data = []
-    for response in responses:
+    for response in tqdm(responses):
         geom = wkt.loads(response.wkt)
         folium.GeoJson(geom).add_to(map_)
         centroid = mapping(geom.centroid)
@@ -240,4 +241,5 @@ def plot_responses(
             },
         )
 
-    return pd.DataFrame(data), map_
+    # TODO display information on the map
+    return map_
