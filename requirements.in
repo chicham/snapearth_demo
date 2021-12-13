@@ -11,4 +11,4 @@ nest_asyncio
 pandas
 ipywidgets
 protobuf
-voila
+voila<0.3.0
