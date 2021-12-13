@@ -38,7 +38,6 @@ repos:
     rev: 21.12b0
     hooks:
       - id: black
-      - id: black-jupyter
   - repo: https://github.com/mwouts/jupytext
     rev: v1.13.4
     hooks:
