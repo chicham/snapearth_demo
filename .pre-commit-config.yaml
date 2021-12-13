@@ -39,11 +39,11 @@ repos:
     hooks:
       - id: black
       - id: black-jupyter
-  # - repo: https://github.com/mwouts/jupytext
-  #   rev: v1.13.4
-  #   hooks:
-  #     - id: jupytext
-  #       args: [--sync]
+  - repo: https://github.com/mwouts/jupytext
+    rev: v1.13.4
+    hooks:
+      - id: jupytext
+        args: [--sync]
   - repo: https://github.com/kynan/nbstripout
     rev: 0.5.0
     hooks:
