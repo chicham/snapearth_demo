@@ -10,3 +10,4 @@ environ-config
 nest_asyncio
 pandas
 ipywidgets
+protobuf
