@@ -8,3 +8,4 @@ shapely
 ipdb
 environ-config
 nest_asyncio
+pandas
