@@ -1,14 +1,14 @@
-import rasterio
-import environ
 import asyncio
 import warnings
 from collections import OrderedDict
 from datetime import date, datetime
 from typing import Iterable, List
 
+import environ
 import folium
 import numpy as np
 import pandas as pd
+import rasterio
 from google.protobuf import timestamp_pb2
 from grpclib.client import Channel
 from grpclib.config import Configuration
@@ -169,7 +169,15 @@ def segmentation_to_image(segmentation, cloud_mask, out_dtype=np.ubyte):
 
 
 def plot_responses(
-    host, port, use_ssl, geom, start_date, end_date, product_ids, categories, n_results
+    host,
+    port,
+    use_ssl,
+    geom,
+    start_date,
+    end_date,
+    product_ids,
+    categories,
+    n_results,
 ):
     product_ids = product_ids.value.split(",") if product_ids.value else None
     categories = categories.value.split(",") if categories.value else None
@@ -184,7 +192,7 @@ def plot_responses(
             product_ids,
             categories,
             n_results.value,
-        )
+        ),
     )
 
     map_ = folium.Map(

@@ -1,17 +1,5 @@
 [tool.isort]
 profile = "black"
-known_third_party = environ,folium,grpclib,ipywidgets,nest_asyncio,numpy,pandas,rasterio,shapely
 
-[tool.pytype]
-keep_going = True
-jobs = 4
-output = .pytype
-pythonpath =
-    .
-python_version = 3.8
-disable =
-    pyi-error
-report_errors = True
-precise_return = False
-protocols = True
-strict_import = True
+[tool.black]
+line-length = 100
