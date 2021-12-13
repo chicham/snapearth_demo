@@ -7,4 +7,4 @@ folium
 shapely
 ipdb
 environ-config
-nest_asynci
+nest_asyncio
