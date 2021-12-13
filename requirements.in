@@ -1,0 +1,16 @@
+grpcio==1.31.*
+numpy==1.19.*
+rasterio>=1.2
+eodag==2.3.*
+more-itertools
+tqdm
+grpclib
+streamlit
+streamlit-folium
+folium
+shapely
+ipdb
+geopandas
+pyvespa
+environ-config
+python-dotenv
