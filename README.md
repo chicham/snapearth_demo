@@ -27,8 +27,8 @@ Example of query:
 
 ## Alternative Implementing a client
 
-##$ Prerequisite
-- Read the api.html that describes the messages exchanged between earthsignature and its client
+## Prerequisite
+- Read the documentation that describes the messages exchanged between earthsignature and its clients
 - Having the `protobuf` compiler for your programming language of choice (documentation of protobuf: https://developers.google.com/protocol-buffers )
 - Having the `grpc` plugin for your programming language of choice (documentation of gRPC: https://grpc.io/)
 - The officially supported languages for gRPC are C#, C++, Dart, Go, Java, Kotlin, Python, NodeJS, Objective-C, PHP, Python, Ruby. (https://grpc.io/docs/languages/)
