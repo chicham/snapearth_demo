@@ -9,6 +9,3 @@ environ-config
 nest_asyncio
 pandas
 protobuf
-voila
-nbconvert==6.0.0
-ipywidgets
