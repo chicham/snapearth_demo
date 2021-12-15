@@ -5,10 +5,10 @@ tqdm
 grpclib
 folium
 shapely
-ipdb
 environ-config
 nest_asyncio
 pandas
-ipywidgets
 protobuf
-voila<0.3.0
+voila
+nbconvert==6.0.0
+ipywidgets
