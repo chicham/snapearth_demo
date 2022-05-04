@@ -1,0 +1,134 @@
+Traceback (most recent call last):
+  File "/opt/miniconda3/envs/snapearth/lib/python3.8/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
+    executenb(
+  File "/opt/miniconda3/envs/snapearth/lib/python3.8/site-packages/nbclient/client.py", line 1204, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/opt/miniconda3/envs/snapearth/lib/python3.8/site-packages/nbclient/util.py", line 84, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "/opt/miniconda3/envs/snapearth/lib/python3.8/site-packages/nbclient/util.py", line 62, in just_run
+    return loop.run_until_complete(coro)
+  File "/opt/miniconda3/envs/snapearth/lib/python3.8/asyncio/base_events.py", line 616, in run_until_complete
+    return future.result()
+  File "/opt/miniconda3/envs/snapearth/lib/python3.8/site-packages/nbclient/client.py", line 663, in async_execute
+    await self.async_execute_cell(
+  File "/opt/miniconda3/envs/snapearth/lib/python3.8/site-packages/nbclient/client.py", line 965, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/opt/miniconda3/envs/snapearth/lib/python3.8/site-packages/nbclient/client.py", line 862, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+from datetime import datetime, timedelta
+
+import ipywidgets as widgets
+from ipywidgets.widgets.widget_layout import Layout
+import nest_asyncio
+from IPython.display import clear_output, display
+from ipywidgets.widgets.widget_box import GridBox, HBox
+
+from utils import EUROPE_COORDINATES, DemoConfig, plot_responses
+
+nest_asyncio.apply()
+
+cfg: DemoConfig = DemoConfig.from_environ(
+    {
+        "SNAPEARTH_GRPC_HOST": "earthsignature.snapearth.eu",
+        "SNAPEARTH_GRPC_PORT": 443,
+        "SNAPEARTH_GRPC_USE_SSL": True,
+        "SNAPEARTH_GRPC_KEEPALIVE_TIMEOUT_MS": 60000,
+        "SNAPEARTH_GRPC_MAX_RECEIVE_MESSAGE_LENGTH": 10 ** 20,
+        "SNAPEARTH_GRPC_MAX_SEND_MESSAGE_LENGTH": 10 ** 20,
+    },
+)
+
+style = {"description_width": "initial"}
+geom = widgets.Text(
+    value=str(EUROPE_COORDINATES),
+    placeholder="",
+    description="WKT polygon of the area of interest",
+    disabled=False,
+)
+
+start_date = widgets.DatePicker(
+    value=datetime.now() - timedelta(1),
+    description="Start date",
+    disabled=False,
+)
+
+end_date = widgets.DatePicker(
+    value=datetime.now() - timedelta(1),
+    description="Stop date",
+    disabled=False,
+)
+
+product_ids = widgets.Text(
+    value="",
+    placeholder="",
+    description="Product IDs (comma separated)",
+    disabled=False,
+    style=style,
+)
+
+categories = widgets.Text(
+    value="",
+    description="Categories (comma separated)",
+    disabled=False,
+    style=style,
+)
+
+n_results = widgets.IntSlider(
+    value=cfg.grpc.max_results,
+    min=1,
+    max=20,
+    step=1,
+    description="Max results",
+    disabled=False,
+)
+
+submit = widgets.Button(description="Submit")
+output = widgets.Output()
+
+
+def on_click(_):
+    output.clear_output()
+    with output:
+        map_ = plot_responses(
+            cfg.grpc.host,
+            cfg.grpc.port,
+            cfg.grpc.use_ssl,
+            geom,
+            start_date,
+            end_date,
+            product_ids,
+            categories,
+            n_results,
+        )
+        display(map_)
+
+
+submit.on_click(on_click)
+------------------
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mModuleNotFoundError[0m                       Traceback (most recent call last)
+Input [0;32mIn [1][0m, in [0;36m<cell line: 9>[0;34m()[0m
+[1;32m      6[0m [38;5;28;01mfrom[39;00m [38;5;21;01mIPython[39;00m[38;5;21;01m.[39;00m[38;5;21;01mdisplay[39;00m [38;5;28;01mimport[39;00m clear_output, display
+[1;32m      7[0m [38;5;28;01mfrom[39;00m [38;5;21;01mipywidgets[39;00m[38;5;21;01m.[39;00m[38;5;21;01mwidgets[39;00m[38;5;21;01m.[39;00m[38;5;21;01mwidget_box[39;00m [38;5;28;01mimport[39;00m GridBox, HBox
+[0;32m----> 9[0m [38;5;28;01mfrom[39;00m [38;5;21;01mutils[39;00m [38;5;28;01mimport[39;00m EUROPE_COORDINATES, DemoConfig, plot_responses
+[1;32m     11[0m nest_asyncio[38;5;241m.[39mapply()
+[1;32m     13[0m cfg: DemoConfig [38;5;241m=[39m DemoConfig[38;5;241m.[39mfrom_environ(
+[1;32m     14[0m     {
+[1;32m     15[0m         [38;5;124m"[39m[38;5;124mSNAPEARTH_GRPC_HOST[39m[38;5;124m"[39m: [38;5;124m"[39m[38;5;124mearthsignature.snapearth.eu[39m[38;5;124m"[39m,
+[0;32m   (...)[0m
+[1;32m     21[0m     },
+[1;32m     22[0m )
+
+File [0;32m/opt/Work/snapearth_demo/tutorial/utils.py:21[0m, in [0;36m<module>[0;34m[0m
+[1;32m     18[0m [38;5;28;01mfrom[39;00m [38;5;21;01mshapely[39;00m[38;5;21;01m.[39;00m[38;5;21;01mgeometry[39;00m [38;5;28;01mimport[39;00m mapping
+[1;32m     19[0m [38;5;28;01mfrom[39;00m [38;5;21;01mtqdm[39;00m [38;5;28;01mimport[39;00m tqdm
+[0;32m---> 21[0m [38;5;28;01mfrom[39;00m [38;5;21;01msnapearth[39;00m[38;5;21;01m.[39;00m[38;5;21;01mapi[39;00m[38;5;21;01m.[39;00m[38;5;21;01mv1[39;00m[38;5;21;01m.[39;00m[38;5;21;01mdatabase_grpc[39;00m [38;5;28;01mimport[39;00m DatabaseProductServiceStub
+[1;32m     22[0m [38;5;28;01mfrom[39;00m [38;5;21;01msnapearth[39;00m[38;5;21;01m.[39;00m[38;5;21;01mapi[39;00m[38;5;21;01m.[39;00m[38;5;21;01mv1[39;00m[38;5;21;01m.[39;00m[38;5;21;01mdatabase_pb2[39;00m [38;5;28;01mimport[39;00m ListSegmentationRequest, SegmentationResponse
+[1;32m     24[0m [38;5;66;03m# Europe bounding box[39;00m
+
+[0;31mModuleNotFoundError[0m: No module named 'snapearth.api.v1.database_grpc'
+ModuleNotFoundError: No module named 'snapearth.api.v1.database_grpc'
+
